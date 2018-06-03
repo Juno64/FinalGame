@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalGame", "FinalGame\FinalGame\FinalGame.csproj", "{BD3D3147-C964-4637-8A2C-C1B4BB1860B2}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "FinalGameContent", "FinalGame\FinalGameContent\FinalGameContent.contentproj", "{3C4D6F18-BE98-4CF0-8D40-EA7B08C9D126}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD3D3147-C964-4637-8A2C-C1B4BB1860B2}.Debug|x86.ActiveCfg = Debug|x86
+		{BD3D3147-C964-4637-8A2C-C1B4BB1860B2}.Debug|x86.Build.0 = Debug|x86
+		{BD3D3147-C964-4637-8A2C-C1B4BB1860B2}.Release|x86.ActiveCfg = Release|x86
+		{BD3D3147-C964-4637-8A2C-C1B4BB1860B2}.Release|x86.Build.0 = Release|x86
+		{3C4D6F18-BE98-4CF0-8D40-EA7B08C9D126}.Debug|x86.ActiveCfg = Debug|x86
+		{3C4D6F18-BE98-4CF0-8D40-EA7B08C9D126}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

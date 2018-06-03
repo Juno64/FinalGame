@@ -1,0 +1,1 @@
+\\artemis\20jlee\my documents\Visual Studio 2010\Projects\FinalGame\FinalGame\FinalGameContent\obj\x86\Debug\FinalGameContent.contentprojResolveAssemblyReference.cache
