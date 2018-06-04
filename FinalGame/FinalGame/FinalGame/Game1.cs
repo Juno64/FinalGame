@@ -147,9 +147,9 @@ namespace FinalGame
                     {
                         if(startRect.Contains(cursorPoint))
                         {
-                            generateBall();
+                            GenerateBall();
                             gameState = GameState.one;
-                            loadNextLevel(Convert.ToInt32(gameState));
+                            LoadNextLevel(Convert.ToInt32(gameState));
                         }
                     }
                     break;
@@ -158,9 +158,9 @@ namespace FinalGame
                     {
                         if (winRect.Contains(cursorPoint))
                         {
-                            generateBall();
+                            GenerateBall();
                             gameState = GameState.one;
-                            loadNextLevel(Convert.ToInt32(gameState));
+                            LoadNextLevel(Convert.ToInt32(gameState));
                             lives = 3;
                         }
                     }
@@ -170,9 +170,9 @@ namespace FinalGame
                     {
                         if (loseRect.Contains(cursorPoint))
                         {
-                            generateBall();
+                            GenerateBall();
                             gameState = GameState.one;
-                            loadNextLevel(Convert.ToInt32(gameState));
+                            LoadNextLevel(Convert.ToInt32(gameState));
                             lives = 3;
                         }
                     }
@@ -240,7 +240,8 @@ namespace FinalGame
                                 if (!isLineVertical)
                                 {
                                     int yIntersect0 = Convert.ToInt32(slope * (brickRect.Left - ball.Center.X) + ball.Center.Y);
-                                    if (yIntersect0 > brickRect.Top && yIntersect0 < brickRect.Bottom && ball.Y <= yIntersect0 && ball.Y - ballVelocity.Y > yIntersect0)
+                                    if (yIntersect0 > brickRect.Top && yIntersect0 < brickRect.Bottom && 
+                                        ((ball.Top <= yIntersect0 && ball.Top - ballVelocity.Y > yIntersect0 ) || (ball.Bottom >= yIntersect0 && ball.Bottom - ballVelocity.Y < yIntersect0)))
                                     {
                                         yValsOfIntersection[0] = yIntersect0;
                                         collisionOccurred = true;
@@ -249,7 +250,8 @@ namespace FinalGame
 
                                     //right vertical
                                     int yIntersect1 = Convert.ToInt32(slope * (brickRect.Right - ball.Center.X) + ball.Center.Y);
-                                    if (yIntersect1 > brickRect.Top && yIntersect1 < brickRect.Bottom && ball.Y <= yIntersect1 && ball.Y - ballVelocity.Y > yIntersect1)
+                                    if (yIntersect1 > brickRect.Top && yIntersect1 < brickRect.Bottom && 
+                                        ((ball.Top <= yIntersect1 && ball.Top - ballVelocity.Y > yIntersect1) || (ball.Bottom >= yIntersect1 && ball.Bottom - ballVelocity.Y < yIntersect1)))
                                     {
                                         yValsOfIntersection[1] = yIntersect1;
                                         collisionOccurred = true;
@@ -259,7 +261,7 @@ namespace FinalGame
                                     //upper horizontal
                                     int xIntersect2 = Convert.ToInt32(brickRect.Top / slope - ball.Center.Y / slope + ball.Center.X);
                                     int yIntersect2 = brickRect.Top;
-                                    if (xIntersect2 > brickRect.Left && xIntersect2 < brickRect.Right && ball.Y <= yIntersect2 && ball.Y - ballVelocity.Y > yIntersect2)
+                                    if (xIntersect2 > brickRect.Left && xIntersect2 < brickRect.Right && ball.Bottom >= yIntersect2 && ball.Bottom - ballVelocity.Y < yIntersect2)
                                     {
                                         yValsOfIntersection[2] = brickRect.Top;
                                         collisionOccurred = true;
@@ -268,7 +270,7 @@ namespace FinalGame
                                     //lower horizontal
                                     int xIntersect3 = Convert.ToInt32(brickRect.Bottom / slope - ball.Center.Y / slope + ball.Center.X);
                                     int yIntersect3 = brickRect.Bottom;
-                                    if (xIntersect3 > brickRect.Left && xIntersect3 < brickRect.Right && ball.Y <= yIntersect3 && ball.Y - ballVelocity.Y > yIntersect3)
+                                    if (xIntersect3 > brickRect.Left && xIntersect3 < brickRect.Right && ball.Bottom <= yIntersect3 && ball.Bottom - ballVelocity.Y > yIntersect3)
                                     {
                                         yValsOfIntersection[3] = brickRect.Bottom;
                                         collisionOccurred = true;
@@ -311,9 +313,13 @@ namespace FinalGame
                                 }
                                 else if (isLineVertical)
                                 {
-                                    ballVelocity.Y *= -1;
-                                    collisionOccurred = true;
-                                    Console.WriteLine("vertical collision" + " at brick " + i + ", " + j);
+                                    if(ball.Left >= brickRect.Left && ball.Right >= brickRect.Right && ((ball.Bottom >= brickRect.Top && ball.Bottom - ballVelocity.Y < brickRect.Top) ||
+                                        (ball.Top >= brickRect.Bottom && ball.Top - ballVelocity.Y > brickRect.Bottom)))
+                                    {
+                                        ballVelocity.Y *= -1;
+                                        collisionOccurred = true;
+                                        Console.WriteLine("vertical collision" + " at brick " + i + ", " + j);
+                                    }
                                 }
                                 if (collisionOccurred)
                                 {
@@ -327,8 +333,8 @@ namespace FinalGame
                                     if (bricksLeft <= 0)
                                     {
                                         gameState++;
-                                        loadNextLevel(Convert.ToInt32(gameState));
-                                        generateBall();
+                                        LoadNextLevel(Convert.ToInt32(gameState));
+                                        GenerateBall();
                                     }
                                 }
                             }
@@ -348,7 +354,7 @@ namespace FinalGame
                         lives--;
                         if (lives > 0)
                         {
-                            generateBall();
+                            GenerateBall();
                         }
                     }
                     ball.X += Convert.ToInt32(ballVelocity.X);
@@ -409,7 +415,7 @@ namespace FinalGame
             spriteBatch.End();
         }
 
-        void loadNextLevel(int levelNum)
+        void LoadNextLevel(int levelNum)
         {
             if (gameState != GameState.winScreen)
             {
@@ -454,11 +460,11 @@ namespace FinalGame
             }
         }
 
-        void generateBall()
+        void GenerateBall()
         {
             ball = new Rectangle(3 * paddleWidth / 2, windowHeight - 3 * paddleHeight / 2, ballWidth, ballHeight);
             ballVelocity = new Vector2(4, -4);
         }
-
+        
     }
 }
