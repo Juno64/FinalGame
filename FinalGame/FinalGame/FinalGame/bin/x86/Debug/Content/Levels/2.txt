@@ -1,4 +1,4 @@
 
    BBBB   
-AAA----AAA
+AAA    AAA
    CCCC   

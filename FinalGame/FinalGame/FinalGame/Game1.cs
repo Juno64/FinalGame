@@ -43,6 +43,8 @@ namespace FinalGame
         Brick[,] bricks;
         int lives;
         int bricksLeft;
+        int score;
+        SpriteFont font;
         MouseState mouse;
         MouseState oldMouse;
         Point cursorPoint;
@@ -96,7 +98,7 @@ namespace FinalGame
 
             // TODO: use this.Content to load your game content here
             gameState = GameState.titleScreen;
-            paddleWidth = windowWidth / 8;
+            paddleWidth = windowWidth / 6;
             paddleHeight = windowHeight / 60;
             paddle = new Rectangle(0, windowHeight - paddleHeight, paddleWidth, paddleHeight);
             ballWidth = windowWidth / 80;
@@ -107,7 +109,9 @@ namespace FinalGame
             winRect = new Rectangle(windowWidth / 2 - 150, windowHeight / 2 - 30, 300, 60);
             bricks = new Brick[10, 15]; // bricks are therefore 80 x 40
             lives = 3;
-
+            score = 0;
+            
+            font = Content.Load<SpriteFont>("SpriteFont1");
             paddleTexture = Content.Load<Texture2D>("paddleTexture");
             ballTexture = Content.Load<Texture2D>("ballTexture");
             startTexture = Content.Load<Texture2D>("startTexture");
@@ -162,6 +166,7 @@ namespace FinalGame
                             gameState = GameState.one;
                             LoadNextLevel(Convert.ToInt32(gameState));
                             lives = 3;
+                            score = 0;
                         }
                     }
                     break;
@@ -174,6 +179,7 @@ namespace FinalGame
                             gameState = GameState.one;
                             LoadNextLevel(Convert.ToInt32(gameState));
                             lives = 3;
+                            score = 0;
                         }
                     }
                     break;
@@ -187,12 +193,19 @@ namespace FinalGame
                     {
                         paddle.X += paddleSpeed;
                     }
-                    if (ball.X < 0 || ball.X + ballWidth > windowWidth)
+                    if (ball.X < 0 )
                     {
                         ballVelocity.X *= -1;
+                        ball.X = 1;
+                    }
+                    else if(ball.X > windowWidth)
+                    {
+                        ballVelocity.X *= -1;
+                        ball.X = windowWidth - ball.Width - 1;
                     }
                     if (ball.Y < 0)
                     {
+                        ball.Y = 1;
                         ballVelocity.Y *= -1;
                     }
                     for (int i = 0; i < bricks.GetLength(0); i++)
@@ -202,33 +215,13 @@ namespace FinalGame
                             if (bricks[i, j] != null)
                             {
                                 Rectangle brickRect = bricks[i, j].BrickRectangle;
-                                /*
-                                if (ball.X <= brickRect.X && ball.X + ballWidth >= brickRect.X)
-                                {
-                                    ballVelocity.X *= -1;
-                                }
-                                if (ball.X <= brickRect.X + brickRect.Width && ball.X + ballWidth >=
-                                    brickRect.X + brickRect.Width)
-                                {
-                                    ballVelocity.X *= -1;
-                                }
-                                if (ball.Y <= brickRect.Y && ball.Y + ballHeight >= brickRect.Y)
-                                {
-                                    ballVelocity.Y *= -1;
-                                }
-                                if (ball.Y <= brickRect.Y + brickRect.Height && ball.Y + ballHeight >=
-                                    brickRect.Y + brickRect.Height)
-                                {
-                                    ballVelocity.Y *= -1;
-                                }
-                                */
                                 //line of ball = m(x - x1) + y1, m = yvel/xvel, x1 and y1 = position coords
                                 bool collisionOccurred = false;
                                 bool isLineVertical;
-                                int slope = 0; //arbitrary default
+                                double slope = 0; //arbitrary default
                                 if(ballVelocity.X != 0)
                                 {
-                                    slope = Convert.ToInt32(ballVelocity.Y / ballVelocity.X);
+                                    slope = ballVelocity.Y / ballVelocity.X;
                                     isLineVertical = false;
                                 }
                                 else
@@ -264,25 +257,27 @@ namespace FinalGame
                                     //if line is vertical, collision with right vertical edge is impossible.
 
                                     //upper horizontal
-                                    int xIntersect2 = Convert.ToInt32(brickRect.Top / slope - ball.Center.Y / slope + ball.Center.X);
+                                    int xIntersect2 = Convert.ToInt32((brickRect.Top / slope) - (ball.Center.Y / slope) + ball.Center.X);
                                     int yIntersect2 = brickRect.Top;
                                     if (xIntersect2 > brickRect.Left && xIntersect2 < brickRect.Right && ball.Bottom >= yIntersect2 && ball.Bottom - ballVelocity.Y < yIntersect2)
                                     {
                                         intersectionCoords[2, 0] = xIntersect2;
                                         intersectionCoords[2, 1] = yIntersect2;
+                                        Console.WriteLine(ballVelocity.X + " {}{} " + ballVelocity.Y);
                                     }
 
                                     //lower horizontal
-                                    int xIntersect3 = Convert.ToInt32(brickRect.Bottom / slope - ball.Center.Y / slope + ball.Center.X);
+                                    int xIntersect3 = Convert.ToInt32((brickRect.Bottom / slope) - (ball.Center.Y / slope) + ball.Center.X);
                                     int yIntersect3 = brickRect.Bottom;
-                                    if (xIntersect3 > brickRect.Left && xIntersect3 < brickRect.Right && ball.Bottom <= yIntersect3 && ball.Bottom - ballVelocity.Y > yIntersect3)
+                                    if (xIntersect3 > brickRect.Left && xIntersect3 < brickRect.Right && ball.Top <= yIntersect3 && ball.Top - ballVelocity.Y > yIntersect3)
                                     {
                                         intersectionCoords[3, 0] = xIntersect3;
                                         intersectionCoords[3, 1] = yIntersect3;
+                                        Console.WriteLine(ballVelocity.X + " {}{} " + ballVelocity.Y);
                                     }
                                     if (ballVelocity.Y < 0)
                                     {
-                                        for (int k = 0; k < intersectionCoords.GetLength(1); k++)
+                                        for (int k = 0; k < intersectionCoords.GetLength(0); k++)
                                         {
                                             if (intersectionCoords[k, 1] != -1)
                                             {
@@ -292,7 +287,7 @@ namespace FinalGame
                                     }
                                     int indexOfFirstIntersectedEdge = -1; //if this variable remains at -1, then no intersection has occurred.
                                     int[] coordsOfFirstIntersectedEdge = { -1, int.MaxValue };
-                                    for (int k = 0; k < intersectionCoords.GetLength(1); k++)
+                                    for (int k = 0; k < intersectionCoords.GetLength(0); k++)
                                     {
                                         if (intersectionCoords[k, 1] != -1)
                                         {
@@ -326,18 +321,24 @@ namespace FinalGame
                                         if (indexOfFirstIntersectedEdge == 0 || indexOfFirstIntersectedEdge == 1)
                                         {
                                             ballVelocity.X *= -1;
+                                            Console.WriteLine("new vel1: " + string.Format("{0} || {1}", ballVelocity.X, ballVelocity.Y));
                                         }
                                         else if (indexOfFirstIntersectedEdge == 2 || indexOfFirstIntersectedEdge == 3)
                                         {
                                             ballVelocity.Y *= -1;
+                                            Console.WriteLine("new vel2: " + string.Format("{0} || {1}", ballVelocity.X, ballVelocity.Y));
                                         }
-                                        Console.WriteLine("collision with edge " + indexOfFirstIntersectedEdge + " at brick " + i + ", " + j + " at coords " + coordsOfFirstIntersectedEdge[0] + ", " + coordsOfFirstIntersectedEdge[1]);
+                                        Console.WriteLine("collision with edge " + indexOfFirstIntersectedEdge + " at brick " + i + ", " + j + " at coords " + coordsOfFirstIntersectedEdge[0] + ", " + coordsOfFirstIntersectedEdge[1] + "`````" + indexOfFirstIntersectedEdge);
+                                        foreach(int coords in intersectionCoords)
+                                        {
+                                            Console.WriteLine(coords);
+                                        }
                                     }
                                 }
                                 else if (isLineVertical)
                                 {
                                     if(ball.Left >= brickRect.Left && ball.Right <= brickRect.Right && ((ball.Bottom >= brickRect.Top && ball.Bottom - ballVelocity.Y < brickRect.Top) ||
-                                        (ball.Top >= brickRect.Bottom && ball.Top - ballVelocity.Y < brickRect.Bottom)))
+                                        (ball.Top <= brickRect.Bottom && ball.Top - ballVelocity.Y > brickRect.Bottom)))
                                     {
                                         ballVelocity.Y *= -1;
                                         collisionOccurred = true;
@@ -350,11 +351,23 @@ namespace FinalGame
                                 if (collisionOccurred)
                                 {
                                     debug = true;
+                                    int signVelocityX = Math.Sign(ballVelocity.X);
+                                    int signVelocityY = Math.Sign(ballVelocity.Y);
+                                    Console.WriteLine(ballVelocity.Y / ballVelocity.X);
                                     double vectorAngle = Math.Atan(ballVelocity.Y / ballVelocity.X);
-                                    ballVelocity.X = Convert.ToInt32((280 - brickRect.Y) * Math.Cos(vectorAngle) / 75); //default: /25
-                                    ballVelocity.Y = Convert.ToInt32((280 - brickRect.Y) * Math.Sin(vectorAngle) / 75);
+                                    Console.WriteLine(vectorAngle);
+                                    if (vectorAngle < 0)
+                                    {
+                                        vectorAngle += Math.PI;
+                                        Console.WriteLine("flipped");
+                                    }
+                                    Console.WriteLine("Vector angle is " + vectorAngle / Math.PI + "pi");
+                                    ballVelocity.X = Convert.ToInt32(signVelocityX * Math.Abs((280 - brickRect.Y) * Math.Cos(vectorAngle) / 25));
+                                    ballVelocity.Y = Convert.ToInt32(signVelocityY * Math.Abs((280 - brickRect.Y) * Math.Sin(vectorAngle) / 25));
+                                    Console.WriteLine(brickRect.Y);
                                     bricks[i, j] = null;
                                     bricksLeft--;
+                                    score+=10;
                                     Console.WriteLine(bricksLeft + " bricks left.");
                                     if (bricksLeft <= 0)
                                     {
@@ -420,8 +433,14 @@ namespace FinalGame
                     break;
                 case GameState.loseScreen:
                     spriteBatch.Draw(loseTexture, loseRect, Color.White);
+                    spriteBatch.DrawString(font, "Final Score: " + score, new Vector2(2 * windowWidth / 5, 3 * windowHeight / 4), Color.Red);
+                    spriteBatch.DrawString(font, "Final Score: " + score, new Vector2(2 * windowWidth / 5 + 1, 3 * windowHeight / 4 + 1), Color.DarkRed);
                     break;
                 default:
+                    spriteBatch.DrawString(font, "Score: " + score, new Vector2(4 * windowWidth / 5 + 1, windowHeight / 2 + 1), Color.Brown);
+                    spriteBatch.DrawString(font, "Lives: " + lives, new Vector2(4 * windowWidth / 5 + 1, 3 * windowHeight / 4 + 1), Color.Brown);
+                    spriteBatch.DrawString(font, "Score: " + score, new Vector2( 4 * windowWidth / 5, windowHeight / 2), Color.DarkGreen);
+                    spriteBatch.DrawString(font, "Lives: " + lives, new Vector2( 4 * windowWidth / 5, 3 * windowHeight / 4), Color.DarkGreen);
                     spriteBatch.Draw(paddleTexture, paddle, Color.White);
                     spriteBatch.Draw(ballTexture, ball, Color.White);
                     for (int i = 0; i < bricks.GetLength(0); i++)
@@ -479,6 +498,10 @@ namespace FinalGame
                             else if (charArr[j] == 'C')
                             {
                                 bricks[i, j] = new Brick(Color.Green, generatedBrickRectangle);
+                            }
+                            else if(charArr[j] == 'D')
+                            {
+                                bricks[i, j] = new Brick(Color.Pink, generatedBrickRectangle);
                             }
                         }
                     }

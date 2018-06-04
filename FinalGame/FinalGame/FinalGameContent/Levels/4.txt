@@ -1,3 +1,4 @@
-          
-BBBBBBBBBB
-AAAAAAAAAA
+     
+  A AA A 
+ B A  A B
+B B CC B B

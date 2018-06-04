@@ -4,6 +4,7 @@ Content\ballTexture.xnb
 Content\loseTexture.xnb
 Content\winTexture.xnb
 Content\brickTexture.xnb
+Content\SpriteFont1.xnb
 Content\Levels\1.txt
 Content\Levels\2.txt
 Content\Levels\3.txt

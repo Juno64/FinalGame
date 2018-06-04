@@ -41,3 +41,4 @@ C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame
 C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\FinalGame.csproj.CoreCompileInputs.cache
 C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\FinalGame.exe
 C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\FinalGame.pdb
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\SpriteFont1.xnb

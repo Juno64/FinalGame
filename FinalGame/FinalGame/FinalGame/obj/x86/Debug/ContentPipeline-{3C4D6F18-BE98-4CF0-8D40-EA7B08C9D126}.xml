@@ -55,6 +55,15 @@
       <Output>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\brickTexture.xnb</Output>
       <Time>2018-06-02T23:31:32.6414924-04:00</Time>
     </Item>
+    <Item>
+      <Source>SpriteFont1.spritefont</Source>
+      <Name>SpriteFont1</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
+      <Time>2018-06-04T03:27:36.2881027-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{3C4D6F18-BE98-4CF0-8D40-EA7B08C9D126}</ContentProjectGUID>

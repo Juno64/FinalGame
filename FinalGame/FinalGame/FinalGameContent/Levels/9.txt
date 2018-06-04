@@ -1,3 +1,5 @@
-          
-BBBBBBBBBB
+CCC CC CCC          
+B   BB   B
 AAAAAAAAAA
+  ABAABA
+  ABAABA

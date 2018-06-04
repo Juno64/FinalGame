@@ -1,3 +1,4 @@
-          
-BBBBBBBBBB
-AAAAAAAAAA
+BB      BB
+AAADDDDAAA
+  BB  BB  
+CC  CC  CC
