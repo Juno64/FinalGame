@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>paddleTexture.png</Source>
+      <Name>paddleTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\paddleTexture.xnb</Output>
+      <Time>2018-06-02T23:31:32.6614399-04:00</Time>
+    </Item>
+    <Item>
+      <Source>startTexture.png</Source>
+      <Name>startTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\startTexture.xnb</Output>
+      <Time>2018-06-02T23:31:32.6644317-04:00</Time>
+    </Item>
+    <Item>
+      <Source>ballTexture.png</Source>
+      <Name>ballTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\ballTexture.xnb</Output>
+      <Time>2018-06-02T23:31:32.6385287-04:00</Time>
+    </Item>
+    <Item>
+      <Source>loseTexture.png</Source>
+      <Name>loseTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\loseTexture.xnb</Output>
+      <Time>2018-06-02T23:31:32.6454818-04:00</Time>
+    </Item>
+    <Item>
+      <Source>winTexture.png</Source>
+      <Name>winTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\winTexture.xnb</Output>
+      <Time>2018-06-02T23:31:32.6684209-04:00</Time>
+    </Item>
+    <Item>
+      <Source>brickTexture.png</Source>
+      <Name>brickTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\brickTexture.xnb</Output>
+      <Time>2018-06-02T23:31:32.6414924-04:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <ContentProjectGUID>{3C4D6F18-BE98-4CF0-8D40-EA7B08C9D126}</ContentProjectGUID>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGameContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2018-06-03T13:48:39.3616405-04:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

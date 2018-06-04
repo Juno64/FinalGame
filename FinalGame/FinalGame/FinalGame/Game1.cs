@@ -149,7 +149,7 @@ namespace FinalGame
                         {
                             generateBall();
                             gameState = GameState.one;
-                            loadNextLevel();
+                            loadNextLevel(Convert.ToInt32(gameState));
                         }
                     }
                     break;
@@ -160,6 +160,7 @@ namespace FinalGame
                         {
                             generateBall();
                             gameState = GameState.one;
+                            loadNextLevel(Convert.ToInt32(gameState));
                             lives = 3;
                         }
                     }
@@ -171,6 +172,7 @@ namespace FinalGame
                         {
                             generateBall();
                             gameState = GameState.one;
+                            loadNextLevel(Convert.ToInt32(gameState));
                             lives = 3;
                         }
                     }
@@ -200,44 +202,132 @@ namespace FinalGame
                             if (bricks[i, j] != null)
                             {
                                 Rectangle brickRect = bricks[i, j].BrickRectangle;
-                                if(ball.Intersects(brickRect))
+                                /*
+                                if (ball.X <= brickRect.X && ball.X + ballWidth >= brickRect.X)
                                 {
-                                    /*
-                                    if (ball.X <= brickRect.X && ball.X + ballWidth >= brickRect.X)
+                                    ballVelocity.X *= -1;
+                                }
+                                if (ball.X <= brickRect.X + brickRect.Width && ball.X + ballWidth >=
+                                    brickRect.X + brickRect.Width)
+                                {
+                                    ballVelocity.X *= -1;
+                                }
+                                if (ball.Y <= brickRect.Y && ball.Y + ballHeight >= brickRect.Y)
+                                {
+                                    ballVelocity.Y *= -1;
+                                }
+                                if (ball.Y <= brickRect.Y + brickRect.Height && ball.Y + ballHeight >=
+                                    brickRect.Y + brickRect.Height)
+                                {
+                                    ballVelocity.Y *= -1;
+                                }
+                                */
+                                //line of ball = m(x - x1) + y1, m = yvel/xvel, x1 and y1 = position coords
+                                bool collisionOccurred = false;
+                                bool isLineVertical;
+                                int slope = 0; //arbitrary default
+                                if(ballVelocity.X != 0)
+                                {
+                                    slope = Convert.ToInt32(ballVelocity.Y / ballVelocity.X);
+                                    isLineVertical = false;
+                                }
+                                else
+                                {
+                                    isLineVertical = true;
+                                }
+                                int[] yValsOfIntersection = { -1, -1, -1, -1}; //0- left vertical, 1- right vertical, 2- upper horizontal, 3- lower horizontal
+                                //left vertical
+                                if (!isLineVertical)
+                                {
+                                    int yIntersect0 = Convert.ToInt32(slope * (brickRect.Left - ball.Center.X) + ball.Center.Y);
+                                    if (yIntersect0 > brickRect.Top && yIntersect0 < brickRect.Bottom && ball.Y <= yIntersect0 && ball.Y - ballVelocity.Y > yIntersect0)
                                     {
-                                        ballVelocity.X *= -1;
+                                        yValsOfIntersection[0] = yIntersect0;
+                                        collisionOccurred = true;
                                     }
-                                    if (ball.X <= brickRect.X + brickRect.Width && b
-                                     * 
-                                     * all.X + ballWidth >=
-                                        brickRect.X + brickRect.Width)
-                                    {
-                                        ballVelocity.X *= -1;
-                                    }
-                                    if (ball.Y <= brickRect.Y && ball.Y + ballHeight >= brickRect.Y)
-                                    {
-                                        ballVelocity.Y *= -1;
-                                    }
-                                    if (ball.Y <= brickRect.Y + brickRect.Height && ball.Y + ballHeight >=
-                                        brickRect.Y + brickRect.Height)
-                                    {
-                                        ballVelocity.Y *= -1;
-                                    }
-                                    */
-                                    if (ballVelocity.X > 0)
-                                    {
+                                    //if line is vertical, collision with left vertical edge is impossible.
 
+                                    //right vertical
+                                    int yIntersect1 = Convert.ToInt32(slope * (brickRect.Right - ball.Center.X) + ball.Center.Y);
+                                    if (yIntersect1 > brickRect.Top && yIntersect1 < brickRect.Bottom && ball.Y <= yIntersect1 && ball.Y - ballVelocity.Y > yIntersect1)
+                                    {
+                                        yValsOfIntersection[1] = yIntersect1;
+                                        collisionOccurred = true;
                                     }
+                                    //if line is vertical, collision with right vertical edge is impossible.
+
+                                    //upper horizontal
+                                    int xIntersect2 = Convert.ToInt32(brickRect.Top / slope - ball.Center.Y / slope + ball.Center.X);
+                                    int yIntersect2 = brickRect.Top;
+                                    if (xIntersect2 > brickRect.Left && xIntersect2 < brickRect.Right && ball.Y <= yIntersect2 && ball.Y - ballVelocity.Y > yIntersect2)
+                                    {
+                                        yValsOfIntersection[2] = brickRect.Top;
+                                        collisionOccurred = true;
+                                    }
+
+                                    //lower horizontal
+                                    int xIntersect3 = Convert.ToInt32(brickRect.Bottom / slope - ball.Center.Y / slope + ball.Center.X);
+                                    int yIntersect3 = brickRect.Bottom;
+                                    if (xIntersect3 > brickRect.Left && xIntersect3 < brickRect.Right && ball.Y <= yIntersect3 && ball.Y - ballVelocity.Y > yIntersect3)
+                                    {
+                                        yValsOfIntersection[3] = brickRect.Bottom;
+                                        collisionOccurred = true;
+                                    }
+                                    if (ballVelocity.Y < 0)
+                                    {
+                                        for (int k = 0; k < yValsOfIntersection.Length; k++)
+                                        {
+                                            if (yValsOfIntersection[k] != -1)
+                                            {
+                                                yValsOfIntersection[k] *= -1;
+                                            }
+                                        }
+                                    }
+                                    int indexOfFirstIntersectedEdge = -1; //if this variable remains at -1, then no intersection has occurred.
+                                    int yValueOfIntersectionWithFirstIntersectedEdge = int.MaxValue;
+                                    for (int k = 0; k < yValsOfIntersection.Length; k++)
+                                    {
+                                        if (yValsOfIntersection[k] != -1)
+                                        {
+                                            if (yValsOfIntersection[k] < yValueOfIntersectionWithFirstIntersectedEdge)
+                                            {
+                                                indexOfFirstIntersectedEdge = k;
+                                                yValueOfIntersectionWithFirstIntersectedEdge = yValsOfIntersection[k];
+                                            }
+                                        }
+                                    }
+                                    if (indexOfFirstIntersectedEdge == 0 || indexOfFirstIntersectedEdge == 1)
+                                    {
+                                        ballVelocity.X *= -1;
+                                    }
+                                    else if (indexOfFirstIntersectedEdge == 2 || indexOfFirstIntersectedEdge == 3)
+                                    {
+                                        ballVelocity.Y *= -1;
+                                    }
+                                    if (indexOfFirstIntersectedEdge != -1)
+                                    {
+                                        Console.WriteLine("collision with edge " + indexOfFirstIntersectedEdge + " at brick " + i + ", " + j + " at y value " + yValueOfIntersectionWithFirstIntersectedEdge);
+                                    }
+                                }
+                                else if (isLineVertical)
+                                {
+                                    ballVelocity.Y *= -1;
+                                    collisionOccurred = true;
+                                    Console.WriteLine("vertical collision" + " at brick " + i + ", " + j);
+                                }
+                                if (collisionOccurred)
+                                {
+                                    debug = true;
                                     double vectorAngle = Math.Atan(ballVelocity.Y / ballVelocity.X);
-                                    ballVelocity.X = Convert.ToInt32((280 - bricks[i, j].BrickRectangle.Y) * Math.Cos(vectorAngle) / 25);
-                                    ballVelocity.Y = Convert.ToInt32((280 - bricks[i, j].BrickRectangle.Y) * Math.Sin(vectorAngle) / 25);
+                                    ballVelocity.X = Convert.ToInt32((280 - brickRect.Y) * Math.Cos(vectorAngle) / 25);
+                                    ballVelocity.Y = Convert.ToInt32((280 - brickRect.Y) * Math.Sin(vectorAngle) / 25);
                                     bricks[i, j] = null;
                                     bricksLeft--;
                                     Console.WriteLine(bricksLeft);
                                     if (bricksLeft <= 0)
                                     {
                                         gameState++;
-                                        loadNextLevel();
+                                        loadNextLevel(Convert.ToInt32(gameState));
                                         generateBall();
                                     }
                                 }
@@ -319,42 +409,45 @@ namespace FinalGame
             spriteBatch.End();
         }
 
-        void loadNextLevel()
+        void loadNextLevel(int levelNum)
         {
-            string path = string.Format("../../../../FinalGameContent/Levels/{0}.txt", Convert.ToInt32(gameState));
-            StreamReader file = new StreamReader(path);
-            List<string> lines = new List<string>();
-            string line = file.ReadLine();
-            while (line != null)
+            if (gameState != GameState.winScreen)
             {
-                lines.Add(line);
-                line = file.ReadLine();
-            }
-            int bricksHorizontal = bricks.GetLength(0);
-            int bricksVertical = bricks.GetLength(1);
-            bricksLeft = 0;
-            for (int i = 0; i < lines.Count; i++) //lines.Count should be less than or equal to 15.
-            {
-                char[] charArr = lines[i].ToCharArray();
-                for (int j = 0; j < charArr.Length; j++) //charArr.Length should be 10
+                string path = string.Format("../../../../FinalGameContent/Levels/{0}.txt", levelNum);
+                StreamReader file = new StreamReader(path);
+                List<string> lines = new List<string>();
+                string line = file.ReadLine();
+                while (line != null)
                 {
-                    Rectangle generatedBrickRectangle = new Rectangle(j * windowWidth / bricksHorizontal,
-                                    i * windowHeight / bricksVertical, windowWidth / bricksHorizontal,
-                                    windowHeight / bricksVertical);
-                    if (charArr[j] != null)
+                    lines.Add(line);
+                    line = file.ReadLine();
+                }
+                int bricksHorizontal = bricks.GetLength(0);
+                int bricksVertical = bricks.GetLength(1);
+                bricksLeft = 0;
+                for (int i = 0; i < lines.Count; i++) //lines.Count should be less than or equal to 15.
+                {
+                    char[] charArr = lines[i].ToCharArray();
+                    for (int j = 0; j < charArr.Length; j++) //charArr.Length should be 10
                     {
-                        bricksLeft++;
-                        if (charArr[j] == 'A')
+                        Rectangle generatedBrickRectangle = new Rectangle(j * windowWidth / bricksHorizontal,
+                                        i * windowHeight / bricksVertical, windowWidth / bricksHorizontal,
+                                        windowHeight / bricksVertical);
+                        if (charArr[j] != ' ')
                         {
-                            bricks[i, j] = new Brick(Color.Red, generatedBrickRectangle);
-                        }
-                        else if (charArr[j] == 'B')
-                        {
-                            bricks[i, j] = new Brick(Color.Blue, generatedBrickRectangle);
-                        }
-                        else if (charArr[j] == 'C')
-                        {
-                            bricks[i, j] = new Brick(Color.Green, generatedBrickRectangle);
+                            bricksLeft++;
+                            if (charArr[j] == 'A')
+                            {
+                                bricks[i, j] = new Brick(Color.Red, generatedBrickRectangle);
+                            }
+                            else if (charArr[j] == 'B')
+                            {
+                                bricks[i, j] = new Brick(Color.Blue, generatedBrickRectangle);
+                            }
+                            else if (charArr[j] == 'C')
+                            {
+                                bricks[i, j] = new Brick(Color.Green, generatedBrickRectangle);
+                            }
                         }
                     }
                 }

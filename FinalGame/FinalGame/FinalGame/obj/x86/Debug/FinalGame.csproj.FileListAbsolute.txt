@@ -19,3 +19,25 @@
 \\artemis\20jlee\my documents\Visual Studio 2010\Projects\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\7.txt
 \\artemis\20jlee\my documents\Visual Studio 2010\Projects\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\8.txt
 \\artemis\20jlee\my documents\Visual Studio 2010\Projects\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\9.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\paddleTexture.xnb
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\startTexture.xnb
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\ballTexture.xnb
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\loseTexture.xnb
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\winTexture.xnb
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\brickTexture.xnb
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\1.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\2.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\3.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\4.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\5.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\6.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\7.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\8.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\Content\Levels\9.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\FinalGame.exe
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\bin\x86\Debug\FinalGame.pdb
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\FinalGame.csprojResolveAssemblyReference.cache
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\FinalGame.csproj.CoreCompileInputs.cache
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\FinalGame.exe
+C:\Users\junom\OneDrive\Documents\GitHub\FinalGame\FinalGame\FinalGame\FinalGame\obj\x86\Debug\FinalGame.pdb
