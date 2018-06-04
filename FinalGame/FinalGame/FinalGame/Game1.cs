@@ -249,7 +249,6 @@ namespace FinalGame
                                     {
                                         intersectionCoords[0, 0] = xIntersect0;
                                         intersectionCoords[0, 1] = yIntersect0;
-                                        collisionOccurred = true;
                                     }
                                     //if line is vertical, collision with left vertical edge is impossible.
 
@@ -261,7 +260,6 @@ namespace FinalGame
                                     {
                                         intersectionCoords[1, 0] = xIntersect1;
                                         intersectionCoords[1, 1] = yIntersect1;
-                                        collisionOccurred = true;
                                     }
                                     //if line is vertical, collision with right vertical edge is impossible.
 
@@ -272,7 +270,6 @@ namespace FinalGame
                                     {
                                         intersectionCoords[2, 0] = xIntersect2;
                                         intersectionCoords[2, 1] = yIntersect2;
-                                        collisionOccurred = true;
                                     }
 
                                     //lower horizontal
@@ -282,7 +279,6 @@ namespace FinalGame
                                     {
                                         intersectionCoords[3, 0] = xIntersect3;
                                         intersectionCoords[3, 1] = yIntersect3;
-                                        collisionOccurred = true;
                                     }
                                     if (ballVelocity.Y < 0)
                                     {
@@ -310,21 +306,22 @@ namespace FinalGame
                                     }
                                     if (indexOfFirstIntersectedEdge != -1)
                                     {
+                                        collisionOccurred = true;
                                         if (ballVelocity.Y < 0)
                                         {
-                                            ball.Y = coordsOfFirstIntersectedEdge[1] - 2 * (ball.Top - coordsOfFirstIntersectedEdge[1]);
+                                            ball.Y = coordsOfFirstIntersectedEdge[1] - (ball.Top - coordsOfFirstIntersectedEdge[1]);
                                         }
                                         else
                                         {
-                                            ball.Y = coordsOfFirstIntersectedEdge[1] - 2 * (ball.Bottom - coordsOfFirstIntersectedEdge[1]);
+                                            ball.Y = coordsOfFirstIntersectedEdge[1] - (ball.Bottom - coordsOfFirstIntersectedEdge[1]);
                                         }
                                         if (ballVelocity.X < 0)
                                         {
-                                            ball.X = coordsOfFirstIntersectedEdge[1] - 2 * (ball.Left - coordsOfFirstIntersectedEdge[0]);
+                                            ball.X = coordsOfFirstIntersectedEdge[0] - (ball.Left - coordsOfFirstIntersectedEdge[0]);
                                         }
                                         else
                                         {
-                                            ball.X = coordsOfFirstIntersectedEdge[1] - 2 * (ball.Right - coordsOfFirstIntersectedEdge[0]);
+                                            ball.X = coordsOfFirstIntersectedEdge[0] - (ball.Right - coordsOfFirstIntersectedEdge[0]);
                                         }
                                         if (indexOfFirstIntersectedEdge == 0 || indexOfFirstIntersectedEdge == 1)
                                         {
@@ -334,10 +331,7 @@ namespace FinalGame
                                         {
                                             ballVelocity.Y *= -1;
                                         }
-                                        if (indexOfFirstIntersectedEdge != -1)
-                                        {
-                                            Console.WriteLine("collision with edge " + indexOfFirstIntersectedEdge + " at brick " + i + ", " + j + " at coords " + coordsOfFirstIntersectedEdge[0] + ", " + coordsOfFirstIntersectedEdge[1]);
-                                        }
+                                        Console.WriteLine("collision with edge " + indexOfFirstIntersectedEdge + " at brick " + i + ", " + j + " at coords " + coordsOfFirstIntersectedEdge[0] + ", " + coordsOfFirstIntersectedEdge[1]);
                                     }
                                 }
                                 else if (isLineVertical)
@@ -357,8 +351,8 @@ namespace FinalGame
                                 {
                                     debug = true;
                                     double vectorAngle = Math.Atan(ballVelocity.Y / ballVelocity.X);
-                                    ballVelocity.X = Convert.ToInt32((280 - brickRect.Y) * Math.Cos(vectorAngle) / 25);
-                                    ballVelocity.Y = Convert.ToInt32((280 - brickRect.Y) * Math.Sin(vectorAngle) / 25);
+                                    ballVelocity.X = Convert.ToInt32((280 - brickRect.Y) * Math.Cos(vectorAngle) / 75); //default: /25
+                                    ballVelocity.Y = Convert.ToInt32((280 - brickRect.Y) * Math.Sin(vectorAngle) / 75);
                                     bricks[i, j] = null;
                                     bricksLeft--;
                                     Console.WriteLine(bricksLeft + " bricks left.");
