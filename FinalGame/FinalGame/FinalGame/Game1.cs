@@ -235,25 +235,32 @@ namespace FinalGame
                                 {
                                     isLineVertical = true;
                                 }
-                                int[] yValsOfIntersection = { -1, -1, -1, -1}; //0- left vertical, 1- right vertical, 2- upper horizontal, 3- lower horizontal
+                                int[,] intersectionCoords = { { -1, -1 },
+                                                              { -1, -1 },
+                                                              { -1, -1 },
+                                                              { -1, -1 } }; //0- left vertical, 1- right vertical, 2- upper horizontal, 3- lower horizontal
                                 //left vertical
                                 if (!isLineVertical)
                                 {
+                                    int xIntersect0 = brickRect.Left;
                                     int yIntersect0 = Convert.ToInt32(slope * (brickRect.Left - ball.Center.X) + ball.Center.Y);
                                     if (yIntersect0 > brickRect.Top && yIntersect0 < brickRect.Bottom && 
                                         ((ball.Top <= yIntersect0 && ball.Top - ballVelocity.Y > yIntersect0 ) || (ball.Bottom >= yIntersect0 && ball.Bottom - ballVelocity.Y < yIntersect0)))
                                     {
-                                        yValsOfIntersection[0] = yIntersect0;
+                                        intersectionCoords[0, 0] = xIntersect0;
+                                        intersectionCoords[0, 1] = yIntersect0;
                                         collisionOccurred = true;
                                     }
                                     //if line is vertical, collision with left vertical edge is impossible.
 
                                     //right vertical
+                                    int xIntersect1 = brickRect.Right;
                                     int yIntersect1 = Convert.ToInt32(slope * (brickRect.Right - ball.Center.X) + ball.Center.Y);
                                     if (yIntersect1 > brickRect.Top && yIntersect1 < brickRect.Bottom && 
                                         ((ball.Top <= yIntersect1 && ball.Top - ballVelocity.Y > yIntersect1) || (ball.Bottom >= yIntersect1 && ball.Bottom - ballVelocity.Y < yIntersect1)))
                                     {
-                                        yValsOfIntersection[1] = yIntersect1;
+                                        intersectionCoords[1, 0] = xIntersect1;
+                                        intersectionCoords[1, 1] = yIntersect1;
                                         collisionOccurred = true;
                                     }
                                     //if line is vertical, collision with right vertical edge is impossible.
@@ -263,7 +270,8 @@ namespace FinalGame
                                     int yIntersect2 = brickRect.Top;
                                     if (xIntersect2 > brickRect.Left && xIntersect2 < brickRect.Right && ball.Bottom >= yIntersect2 && ball.Bottom - ballVelocity.Y < yIntersect2)
                                     {
-                                        yValsOfIntersection[2] = brickRect.Top;
+                                        intersectionCoords[2, 0] = xIntersect2;
+                                        intersectionCoords[2, 1] = yIntersect2;
                                         collisionOccurred = true;
                                     }
 
@@ -272,53 +280,77 @@ namespace FinalGame
                                     int yIntersect3 = brickRect.Bottom;
                                     if (xIntersect3 > brickRect.Left && xIntersect3 < brickRect.Right && ball.Bottom <= yIntersect3 && ball.Bottom - ballVelocity.Y > yIntersect3)
                                     {
-                                        yValsOfIntersection[3] = brickRect.Bottom;
+                                        intersectionCoords[3, 0] = xIntersect3;
+                                        intersectionCoords[3, 1] = yIntersect3;
                                         collisionOccurred = true;
                                     }
                                     if (ballVelocity.Y < 0)
                                     {
-                                        for (int k = 0; k < yValsOfIntersection.Length; k++)
+                                        for (int k = 0; k < intersectionCoords.GetLength(1); k++)
                                         {
-                                            if (yValsOfIntersection[k] != -1)
+                                            if (intersectionCoords[k, 1] != -1)
                                             {
-                                                yValsOfIntersection[k] *= -1;
+                                                intersectionCoords[k, 1] *= -1;
                                             }
                                         }
                                     }
                                     int indexOfFirstIntersectedEdge = -1; //if this variable remains at -1, then no intersection has occurred.
-                                    int yValueOfIntersectionWithFirstIntersectedEdge = int.MaxValue;
-                                    for (int k = 0; k < yValsOfIntersection.Length; k++)
+                                    int[] coordsOfFirstIntersectedEdge = { -1, int.MaxValue };
+                                    for (int k = 0; k < intersectionCoords.GetLength(1); k++)
                                     {
-                                        if (yValsOfIntersection[k] != -1)
+                                        if (intersectionCoords[k, 1] != -1)
                                         {
-                                            if (yValsOfIntersection[k] < yValueOfIntersectionWithFirstIntersectedEdge)
+                                            if (intersectionCoords[k, 1] < coordsOfFirstIntersectedEdge[1])
                                             {
                                                 indexOfFirstIntersectedEdge = k;
-                                                yValueOfIntersectionWithFirstIntersectedEdge = yValsOfIntersection[k];
+                                                coordsOfFirstIntersectedEdge[0] = intersectionCoords[k, 0];
+                                                coordsOfFirstIntersectedEdge[1] =  Math.Abs(intersectionCoords[k, 1]);
                                             }
                                         }
                                     }
-                                    if (indexOfFirstIntersectedEdge == 0 || indexOfFirstIntersectedEdge == 1)
-                                    {
-                                        ballVelocity.X *= -1;
-                                    }
-                                    else if (indexOfFirstIntersectedEdge == 2 || indexOfFirstIntersectedEdge == 3)
-                                    {
-                                        ballVelocity.Y *= -1;
-                                    }
                                     if (indexOfFirstIntersectedEdge != -1)
                                     {
-                                        Console.WriteLine("collision with edge " + indexOfFirstIntersectedEdge + " at brick " + i + ", " + j + " at y value " + yValueOfIntersectionWithFirstIntersectedEdge);
+                                        if (ballVelocity.Y < 0)
+                                        {
+                                            ball.Y = coordsOfFirstIntersectedEdge[1] - 2 * (ball.Top - coordsOfFirstIntersectedEdge[1]);
+                                        }
+                                        else
+                                        {
+                                            ball.Y = coordsOfFirstIntersectedEdge[1] - 2 * (ball.Bottom - coordsOfFirstIntersectedEdge[1]);
+                                        }
+                                        if (ballVelocity.X < 0)
+                                        {
+                                            ball.X = coordsOfFirstIntersectedEdge[1] - 2 * (ball.Left - coordsOfFirstIntersectedEdge[0]);
+                                        }
+                                        else
+                                        {
+                                            ball.X = coordsOfFirstIntersectedEdge[1] - 2 * (ball.Right - coordsOfFirstIntersectedEdge[0]);
+                                        }
+                                        if (indexOfFirstIntersectedEdge == 0 || indexOfFirstIntersectedEdge == 1)
+                                        {
+                                            ballVelocity.X *= -1;
+                                        }
+                                        else if (indexOfFirstIntersectedEdge == 2 || indexOfFirstIntersectedEdge == 3)
+                                        {
+                                            ballVelocity.Y *= -1;
+                                        }
+                                        if (indexOfFirstIntersectedEdge != -1)
+                                        {
+                                            Console.WriteLine("collision with edge " + indexOfFirstIntersectedEdge + " at brick " + i + ", " + j + " at coords " + coordsOfFirstIntersectedEdge[0] + ", " + coordsOfFirstIntersectedEdge[1]);
+                                        }
                                     }
                                 }
                                 else if (isLineVertical)
                                 {
-                                    if(ball.Left >= brickRect.Left && ball.Right >= brickRect.Right && ((ball.Bottom >= brickRect.Top && ball.Bottom - ballVelocity.Y < brickRect.Top) ||
-                                        (ball.Top >= brickRect.Bottom && ball.Top - ballVelocity.Y > brickRect.Bottom)))
+                                    if(ball.Left >= brickRect.Left && ball.Right <= brickRect.Right && ((ball.Bottom >= brickRect.Top && ball.Bottom - ballVelocity.Y < brickRect.Top) ||
+                                        (ball.Top >= brickRect.Bottom && ball.Top - ballVelocity.Y < brickRect.Bottom)))
                                     {
                                         ballVelocity.Y *= -1;
                                         collisionOccurred = true;
                                         Console.WriteLine("vertical collision" + " at brick " + i + ", " + j);
+                                        Console.WriteLine(string.Format("ball.Left: {0}, ball.Right: {1}, brickRight: {2}, brickLeft: {3}, ball.Bottom: {4}, brickTop: {5}, ballVelocity: {6}," +
+                                            " ballTop: {7}, brickBot: {8}", ball.Left, ball.Right, brickRect.Right, brickRect.Left, ball.Bottom, brickRect.Top, ballVelocity.Y, ball.Top,
+                                            brickRect.Bottom));
                                     }
                                 }
                                 if (collisionOccurred)
@@ -329,7 +361,7 @@ namespace FinalGame
                                     ballVelocity.Y = Convert.ToInt32((280 - brickRect.Y) * Math.Sin(vectorAngle) / 25);
                                     bricks[i, j] = null;
                                     bricksLeft--;
-                                    Console.WriteLine(bricksLeft);
+                                    Console.WriteLine(bricksLeft + " bricks left.");
                                     if (bricksLeft <= 0)
                                     {
                                         gameState++;
