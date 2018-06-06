@@ -193,6 +193,7 @@ namespace FinalGame
                     {
                         paddle.X += paddleSpeed;
                     }
+<<<<<<< HEAD
                     
                     if (paddle.Intersects(ball))
                     {
@@ -204,6 +205,19 @@ namespace FinalGame
                         
                     }
                     else if (ball.Y > windowHeight)
+=======
+                    if (ball.X < 0 )
+                    {
+                        ballVelocity.X *= -1;
+                        ball.X = 1;
+                    }
+                    else if(ball.X > windowWidth)
+                    {
+                        ballVelocity.X *= -1;
+                        ball.X = windowWidth - ball.Width - 1;
+                    }
+                    if (ball.Y < 0)
+>>>>>>> parent of 50c16e2... things are better
                     {
                         lives--;
                         if (lives > 0)
@@ -236,20 +250,29 @@ namespace FinalGame
                                 {
                                     isLineVertical = true;
                                 }
-                                double[,] intersectionCoords = { { -1, -1 },
+                                int[,] intersectionCoords = { { -1, -1 },
                                                               { -1, -1 },
                                                               { -1, -1 },
                                                               { -1, -1 } }; //0- left vertical, 1- right vertical, 2- upper horizontal, 3- lower horizontal
+<<<<<<< HEAD
                                 int[] coordsOfActualIntersection = { -1, -1 };
                                 float oldVelocityX = ballVelocity.X;
                                 float oldVelocityY = ballVelocity.Y;
+=======
+>>>>>>> parent of 50c16e2... things are better
                                 //left vertical
                                 if (!isLineVertical)
                                 {
                                     int xIntersect0 = brickRect.Left;
+<<<<<<< HEAD
                                     double yIntersect0 = slope * (brickRect.Left - ball.Center.X) + ball.Center.Y;
                                     if (yIntersect0 > brickRect.Top && yIntersect0 < brickRect.Bottom &&
                                         ((ball.Top <= yIntersect0 && ball.Top - ballVelocity.Y > yIntersect0) || (ball.Bottom >= yIntersect0 && ball.Bottom - ballVelocity.Y < yIntersect0)))
+=======
+                                    int yIntersect0 = Convert.ToInt32(slope * (brickRect.Left - ball.Center.X) + ball.Center.Y);
+                                    if (yIntersect0 > brickRect.Top && yIntersect0 < brickRect.Bottom && 
+                                        ((ball.Top <= yIntersect0 && ball.Top - ballVelocity.Y > yIntersect0 ) || (ball.Bottom >= yIntersect0 && ball.Bottom - ballVelocity.Y < yIntersect0)))
+>>>>>>> parent of 50c16e2... things are better
                                     {
                                         intersectionCoords[0, 0] = xIntersect0;
                                         intersectionCoords[0, 1] = yIntersect0;
@@ -313,17 +336,36 @@ namespace FinalGame
                                             if (intersectionCoords[k, 1] < coordsOfFirstIntersectedEdge[1])
                                             {
                                                 indexOfFirstIntersectedEdge = k;
-                                                coordsOfFirstIntersectedEdge[0] = Convert.ToInt32(intersectionCoords[k, 0]);
-                                                coordsOfFirstIntersectedEdge[1] = Convert.ToInt32(Math.Abs(intersectionCoords[k, 1])); //this is ok i think because if the ball passed through the point, then it won't be too big.
+                                                coordsOfFirstIntersectedEdge[0] = intersectionCoords[k, 0];
+                                                coordsOfFirstIntersectedEdge[1] =  Math.Abs(intersectionCoords[k, 1]);
                                             }
                                         }
                                     }
                                     if (indexOfFirstIntersectedEdge != -1)
                                     {
                                         collisionOccurred = true;
+<<<<<<< HEAD
                                         Array.Copy(coordsOfFirstIntersectedEdge, coordsOfActualIntersection, 2);
                                         Console.WriteLine("currentPos: " + ball.X + " ++ " + ball.Y);
                                         Console.WriteLine(coordsOfActualIntersection[0] + "%%%actual%%" + coordsOfActualIntersection[1]);
+=======
+                                        if (ballVelocity.Y < 0)
+                                        {
+                                            ball.Y = coordsOfFirstIntersectedEdge[1] - (ball.Top - coordsOfFirstIntersectedEdge[1]);
+                                        }
+                                        else
+                                        {
+                                            ball.Y = coordsOfFirstIntersectedEdge[1] - (ball.Bottom - coordsOfFirstIntersectedEdge[1]);
+                                        }
+                                        if (ballVelocity.X < 0)
+                                        {
+                                            ball.X = coordsOfFirstIntersectedEdge[0] - (ball.Left - coordsOfFirstIntersectedEdge[0]);
+                                        }
+                                        else
+                                        {
+                                            ball.X = coordsOfFirstIntersectedEdge[0] - (ball.Right - coordsOfFirstIntersectedEdge[0]);
+                                        }
+>>>>>>> parent of 50c16e2... things are better
                                         if (indexOfFirstIntersectedEdge == 0 || indexOfFirstIntersectedEdge == 1)
                                         {
                                             ballVelocity.X *= -1;
@@ -368,6 +410,7 @@ namespace FinalGame
                                         Console.WriteLine("flipped");
                                     }
                                     Console.WriteLine("Vector angle is " + vectorAngle / Math.PI + "pi");
+<<<<<<< HEAD
                                     ballVelocity.X = (float)(signVelocityX * Math.Abs((280 - brickRect.Y) * Math.Cos(vectorAngle) / 25));
                                     ballVelocity.Y = (float)(signVelocityY * Math.Abs((280 - brickRect.Y) * Math.Sin(vectorAngle) / 25));
 
@@ -404,6 +447,14 @@ namespace FinalGame
                                     else
                                         bricks[i, j].Hp--;
                                     score += 10;
+=======
+                                    ballVelocity.X = Convert.ToInt32(signVelocityX * Math.Abs((280 - brickRect.Y) * Math.Cos(vectorAngle) / 25));
+                                    ballVelocity.Y = Convert.ToInt32(signVelocityY * Math.Abs((280 - brickRect.Y) * Math.Sin(vectorAngle) / 25));
+                                    Console.WriteLine(brickRect.Y);
+                                    bricks[i, j] = null;
+                                    bricksLeft--;
+                                    score+=10;
+>>>>>>> parent of 50c16e2... things are better
                                     Console.WriteLine(bricksLeft + " bricks left.");
                                     if (bricksLeft <= 0)
                                     {
@@ -420,8 +471,17 @@ namespace FinalGame
                     #region wallCollision
                     if (ball.X < 0)
                     {
+<<<<<<< HEAD
                         ballVelocity.X *= -1;
                         ball.X = -ball.X;
+=======
+                        Console.WriteLine("ASDSADSA");
+                        double refAngle = maxAngle * ((paddle.X + paddleWidth / 2) - (ball.X + ballWidth / 2)) / paddleWidth;
+                        ballVelocity = new Vector2
+                            (Convert.ToInt32(Convert.ToDouble(ballVelocity.Length()) * Math.Cos(3 * Math.PI / 2 - refAngle)),
+                             Convert.ToInt32(Convert.ToDouble(ballVelocity.Length()) * Math.Sin(3 * Math.PI / 2 - refAngle)));
+                        
+>>>>>>> parent of 50c16e2... things are better
                     }
                     else if (ball.Right > windowWidth)
                     {
