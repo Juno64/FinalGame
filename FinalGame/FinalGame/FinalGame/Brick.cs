@@ -15,10 +15,12 @@ namespace FinalGame
     {
         public Color BrickColor {get; set;}
         public Rectangle BrickRectangle { get; set; }
-        public Brick(Color theColor, Rectangle theRectangle)
+        public int Hp { get; set; }
+        public Brick(Color theColor, Rectangle theRectangle, int hitPoints)
         {
             BrickColor = theColor;
             BrickRectangle = theRectangle;
+            Hp = hitPoints;
         }
     }
 }
